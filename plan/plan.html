@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خطة المشارك | ملتقى المهارات الناعمة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="plan.css">
+</head>
+<body>
+    <!-- الهيدر -->
+    <header class="formHeader">
+        <div class="club-logo">
+            <img src="../assets/logo.png" alt="Skills-Craft" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="logo-fallback" style="display:none;">
+                <i class="fa-solid fa-lightbulb"></i>
+            </div>
+        </div>
+        
+        <h1>استعلم عن خطة مشاركتك</h1>
+        <p>أدخل بريدك الإلكتروني ورقمك التسلسلي لعرض بطاقة الدخول وجدولك الشخصي بأمان</p>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main>
+        <!-- نموذج البحث الآمن -->
+        <div class="search-container" id="searchContainer">
+            <div class="search-box">
+                <div class="security-badge">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>تحقق أمني مزدوج لحماية بياناتك</span>
+                </div>
+                
+                <div class="search-input-group">
+                    <div class="input-wrapper">
+                        <label for="searchEmail"><i class="fa-solid fa-envelope"></i> البريد الإلكتروني المسجل</label>
+                        <input type="email" id="searchEmail" placeholder="example@domain.com" autocomplete="email">
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="searchSerial"><i class="fa-solid fa-hashtag"></i> الرقم التسلسلي</label>
+                        <input type="text" id="searchSerial" placeholder="مثال: 150" autocomplete="off">
+                    </div>
+                </div>
+                
+                <button class="search-btn" id="searchBtn" style="width: 100%; margin-top: 1em;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    التحقق وعرض البطاقة
+                </button>
+                
+                <div class="search-hint" id="searchHint">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>يجب أن يتطابق البريد الإلكتروني مع الرقم التسلسلي لعرض البطاقة</span>
+                </div>
+                
+                <div class="error-message" id="errorMessage" style="display: none;">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span id="errorText"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- شاشة التحميل -->
+        <div class="loading-screen" id="loadingScreen" style="display: none;">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+            <p>جاري التحقق من البيانات...</p>
+        </div>
+
+        <!-- عرض الخطة (مخفي افتراضياً) -->
+        <div class="plan-container" id="planContainer" style="display: none;">
+            <button class="back-btn" id="backBtn">
+                <i class="fa-solid fa-arrow-right"></i>
+                بحث جديد
+            </button>
+            
+            <div class="participant-info">
+                <div class="info-header">
+                    <h2>مرحباً بك، <span id="participantName"></span> 👋</h2>
+                    <p class="info-subtitle">هذه بطاقة دخولك الشخصية لملتقى المهارات الناعمة</p>
+                </div>
+                
+                <!-- البطاقة الرقمية -->
+                <div class="digital-card">
+                    <div class="card-header">
+                        <h3>Skills-Craft</h3>
+                        <span>بطاقة مشارك</span>
+                    </div>
+                    <div class="card-body">
+                        <h4 id="cardName">اسم المشارك</h4>
+                        <p class="card-id" id="cardId">#0000</p>
+                        <div id="qrcode"></div>
+                        <div class="card-meta">
+                            <span class="meta-item">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span id="cardEmail"></span>
+                            </span>
+                            <span class="meta-item">
+                                <i class="fa-solid fa-phone"></i>
+                                <span id="cardPhone"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- جدول الورشات -->
+                <div class="schedule-section">
+                    <h3 class="schedule-title">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        جدول ورشاتك المختارة
+                    </h3>
+                    <div class="schedule-days" id="scheduleDays">
+                        <!-- تُملأ ديناميكياً -->
+                    </div>
+                </div>
+                
+                <!-- التوقعات -->
+                <div class="expectations-section">
+                    <h3 class="expectations-title">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        توقعاتك من الملتقى
+                    </h3>
+                    <div class="expectations-box" id="expectationsBox">
+                        <!-- تُملأ ديناميكياً -->
+                    </div>
+                </div>
+                
+                <!-- تنبيه التصوير -->
+                <div class="screenshot-hint">
+                    <i class="fa-solid fa-camera"></i>
+                    <span>احفظ هذه الصفحة أو صوّرها للاطلاع على بياناتك لاحقاً</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- الفوتر -->
+    <footer>
+        <p>© 2026 ملتقى المهارات الناعمة - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <script src="plan.js"></script>
+</body>
+</html>

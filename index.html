@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملتقى المهارات الناعمة | Skills-Craft</title>
+    <meta name="description" content="ملتقى المهارات الناعمة - 4 أيام من الإبداع والتعلم">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- HeroUI Components -->
+    <script src="https://unpkg.com/@heroui/react@2.0.0/dist/heroui.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#7C3AED',
+                        accent: '#06B6D4',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md shadow-sm z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo Section -->
+                <div class="flex items-center gap-4">
+                    <!-- Event Logo -->
+                    <div class="w-12 h-12 rounded-full  from-primary to-secondary flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                        <img src="assets/logo.png" alt="">
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Skills-Craft</h1>
+                        <p class="text-xs text-gray-500">ملتقى المهارات الناعمة</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#about" class="text-gray-700 hover:text-primary font-semibold transition-colors">عن الملتقى</a>
+                    <a href="#schedule" class="text-gray-700 hover:text-primary font-semibold transition-colors">البرنامج</a>
+                    <a href="#speakers" class="text-gray-700 hover:text-primary font-semibold transition-colors">المتحدثون</a>
+                    <a href="#partners" class="text-gray-700 hover:text-primary font-semibold transition-colors">الشركاء</a>
+                    <a href="register/register.html" class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full font-bold transition-all shadow-lg hover:shadow-xl">
+                        سجل الآن
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-gray-700 text-2xl" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#about" class="block text-gray-700 hover:text-primary font-semibold py-2">عن الملتقى</a>
+                <a href="#schedule" class="block text-gray-700 hover:text-primary font-semibold py-2">البرنامج</a>
+                <a href="#speakers" class="block text-gray-700 hover:text-primary font-semibold py-2">المتحدثون</a>
+                <a href="register/register.html" class="block bg-primary text-white text-center py-3 rounded-lg font-bold">سجل الآن</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-purple-50"></div>
+        <div class="absolute inset-0 opacity-30">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border-2 border-primary/20 px-6 py-3 rounded-full mb-8 shadow-lg">
+                <i class="fa-solid fa-calendar-days text-primary text-xl"></i>
+                <span class="text-gray-800 font-bold text-lg">20-23 سبتمبر 2026</span>
+                <span class="text-gray-400">|</span>
+                <span class="text-primary font-bold">4 أيام من الإبداع</span>
+            </div>
+
+            <!-- Main Title -->
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                <span class="block text-gray-900">نصنع مهاراتنا</span>
+                <span class="block gradient-text mt-2">نصنع مستقبلنا</span>
+            </h1>
+
+            <p class="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+                ملتقى هجين يجمع بين الحضور الميداني والافتراضي 
+                لتطوير المهارات الناعمة وبناء المستقبل المهني
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+                <a href="register/register.html" class="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-full font-bold text-lg transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-user-plus text-xl"></i>
+                    سجل مشاركتك
+                </a>
+                <a href="plan/plan.html" class="w-full sm:w-auto bg-white hover:bg-gray-50 text-gray-800 border-2 border-gray-200 px-10 py-4 rounded-full font-bold text-lg transition-all hover:border-primary flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                    ابحث عن تسجيلك
+                </a>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="text-4xl font-black text-primary mb-2" id="registeredCount">0</div>
+                    <div class="text-gray-600 font-semibold">مشارك مسجل</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="text-4xl font-black text-secondary mb-2">150</div>
+                    <div class="text-gray-600 font-semibold">مقعد حضوري</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="text-4xl font-black text-accent mb-2">4</div>
+                    <div class="text-gray-600 font-semibold">أيام الملتقى</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4">الشركاء والمنظمون</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <!-- Event Logo -->
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center min-h-[250px] hover:border-primary transition-colors group">
+                    <div class="w-32 h-32 rounded-full  from-primary to-secondary flex items-center justify-center text-white text-5xl mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                        <img src="assets/logo.png" alt="">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">Skills-Craft</h3>
+                    <p class="text-gray-500 mt-2">الحدث الرئيسي</p>
+                    <!-- Replace with: <img src="assets/event-logo.png" alt="Event Logo" class="w-32 h-32 object-contain"> -->
+                </div>
+
+                <!-- Club Logo -->
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center min-h-[250px] hover:border-secondary transition-colors group">
+                    <div class="w-32 h-32 rounded-full  from-secondary to-accent flex items-center justify-center text-white text-5xl mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                        <img src="assets/nadi.png" alt="">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">النادي المنظم</h3>
+                    <p class="text-gray-500 mt-2">المنظم الرئيسي</p>
+                    <!-- Replace with: <img src="assets/club-logo.png" alt="Club Logo" class="w-32 h-32 object-contain"> -->
+                </div>
+
+                <!-- Youth Organization Logo -->
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center min-h-[250px] hover:border-accent transition-colors group">
+                    <div class="w-32 h-32 rounded-full  from-accent to-primary flex items-center justify-center text-white text-5xl mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                        <img src="assets/mo.png" alt="">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">منظمة الشباب</h3>
+                    <p class="text-gray-500 mt-2">شريك استراتيجي</p>
+                    <!-- Replace with: <img src="assets/youth-org-logo.png" alt="Youth Org Logo" class="w-32 h-32 object-contain"> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-6">عن الملتقى</h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mb-6"></div>
+                    <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                        ملتقى المهارات الناعمة هو منصة متكاملة لتطوير القدرات الشخصية والمهنية، 
+                        يجمع بين الخبرات الميدانية والتفاعل الافتراضي في تجربة فريدة من نوعها.
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed mb-8">
+                        نؤمن بأن كل مشارك يستحق فرصة حقيقية لتطوير مهاراته وبناء شبكات علاقات 
+                        مهنية قوية تفتح له آفاقاً جديدة للنجاح.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fa-solid fa-users text-xl"></i>
+                            </div>
+                            <span class="font-semibold text-gray-900">ورش تفاعلية</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                                <i class="fa-solid fa-certificate text-xl"></i>
+                            </div>
+                            <span class="font-semibold text-gray-900">شهادات مشاركة</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                                <i class="fa-solid fa-video text-xl"></i>
+                            </div>
+                            <span class="font-semibold text-gray-900">بث مباشر</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fa-solid fa-network-wired text-xl"></i>
+                            </div>
+                            <span class="font-semibold text-gray-900">شبكات مهنية</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-3xl transform rotate-3 opacity-20"></div>
+                    <div class="relative bg-white p-8 rounded-3xl shadow-2xl">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-4">
+                                <div class="bg-gradient-to-br from-primary/10 to-primary/5 p-6 rounded-2xl">
+                                    <i class="fa-solid fa-chalkboard-user text-4xl text-primary mb-3"></i>
+                                    <h3 class="font-bold text-gray-900">مدربون خبراء</h3>
+                                </div>
+                                <div class="bg-gradient-to-br from-secondary/10 to-secondary/5 p-6 rounded-2xl">
+                                    <i class="fa-solid fa-users-gear text-4xl text-secondary mb-3"></i>
+                                    <h3 class="font-bold text-gray-900">عمل جماعي</h3>
+                                </div>
+                            </div>
+                            <div class="space-y-4 pt-8">
+                                <div class="bg-gradient-to-br from-accent/10 to-accent/5 p-6 rounded-2xl">
+                                    <i class="fa-solid fa-lightbulb text-4xl text-accent mb-3"></i>
+                                    <h3 class="font-bold text-gray-900">أفكار إبداعية</h3>
+                                </div>
+                                <div class="bg-gradient-to-br from-primary/10 to-primary/5 p-6 rounded-2xl">
+                                    <i class="fa-solid fa-trophy text-4xl text-primary mb-3"></i>
+                                    <h3 class="font-bold text-gray-900">إنجازات</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Preview -->
+    <section id="schedule" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4">برنامج الملتقى</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-4"></div>
+                <p class="text-lg text-gray-600">4 أيام مكثفة من التعلم والتطوير</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Day 1 -->
+                <div class="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl border-2 border-gray-100 card-hover">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-4">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">اليوم الأول</h3>
+                    <p class="text-gray-500 mb-4">الأحد 20 سبتمبر</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-primary"></i>
+                            <span>ورشة التسويق</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-primary"></i>
+                            <span>التواصل الفعال</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Day 2 -->
+                <div class="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl border-2 border-gray-100 card-hover">
+                    <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center text-secondary text-2xl mb-4">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">اليوم الثاني</h3>
+                    <p class="text-gray-500 mb-4">الإثنين 21 سبتمبر</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-secondary"></i>
+                            <span>التخطيط الاستراتيجي</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-secondary"></i>
+                            <span>الذكاء الاصطناعي</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Day 3 -->
+                <div class="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl border-2 border-gray-100 card-hover">
+                    <div class="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center text-accent text-2xl mb-4">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">اليوم الثالث</h3>
+                    <p class="text-gray-500 mb-4">الثلاثاء 22 سبتمبر</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-accent"></i>
+                            <span>اكتشاف الشغف</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-accent"></i>
+                            <span>إدارة الضغوط</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Day 4 -->
+                <div class="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl border-2 border-gray-100 card-hover">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-4">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">اليوم الرابع</h3>
+                    <p class="text-gray-500 mb-4">الأربعاء 23 سبتمبر</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-primary"></i>
+                            <span>الورشة الختامية</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-primary"></i>
+                            <span>توزيع الشهادات</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 hero-gradient">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-5xl font-black text-white mb-6">مستعد لبدء رحلتك؟</h2>
+            <p class="text-xl text-white/90 mb-10">انضم إلى مئات المشاركين وسجل الآن في ملتقى المهارات الناعمة</p>
+            <a href="register/register.html" class="inline-flex items-center gap-3 bg-white text-primary px-10 py-4 rounded-full font-bold text-lg transition-all shadow-2xl hover:shadow-white/25 hover:-translate-y-1">
+                <i class="fa-solid fa-rocket text-2xl"></i>
+                سجل الآن - المقاعد محدودة
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full  from-primary to-secondary flex items-center justify-center">
+                            <img src="assets/logo.png" alt="">
+                        </div>
+                        <h3 class="text-xl font-bold">Skills-Craft</h3>
+                    </div>
+                    <p class="text-gray-400">ملتقى المهارات الناعمة - نصنع مهاراتنا، نصنع مستقبلنا</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">روابط سريعة</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#about" class="hover:text-white transition-colors">عن الملتقى</a></li>
+                        <li><a href="#schedule" class="hover:text-white transition-colors">البرنامج</a></li>
+                        <li><a href="register/register.html" class="hover:text-white transition-colors">التسجيل</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">تواصل معنا</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fa-solid fa-envelope ml-2"></i> info@skillscraft.dz</li>
+                        <li><i class="fa-solid fa-phone ml-2"></i> +213 555 123 456</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 ملتقى المهارات الناعمة. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main/main.js"></script>
+    <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>

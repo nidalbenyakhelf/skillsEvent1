@@ -1,0 +1,35 @@
+/* تنسيقات مخصصة بسيطة لدعم HeroUI/Tailwind */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+
+/* تحسينات على شريط التمرير ليتناسب مع التصميم الفاتح */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+    background: #C9A227;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #1E4D6F;
+}
+
+/* حالة الزر النشط في التبويبات */
+.day-tab.active {
+    background-color: #1E4D6F !important;
+    color: white !important;
+    box-shadow: 0 4px 6px -1px rgba(30, 77, 111, 0.2);
+}
+
+/* تحسينات بطاقات الورش */
+.workshop-card {
+    transition: all 0.3s ease;
+    border-right: 4px solid transparent;
+}
+.workshop-card:hover {
+    border-right-color: #C9A227;
+    transform: translateX(-4px);
+    background-color: #FAFAFA;
+}

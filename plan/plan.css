@@ -1,0 +1,258 @@
+/* ========================================
+IMPORTS & RESET
+======================================== */
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap");
+*, *::before, *::after { padding: 0; margin: 0; box-sizing: border-box; }
+
+/* ========================================
+ROOT VARIABLES
+======================================== */
+:root {
+    --bg-primary: #FAFAFA;
+    --bg-secondary: #FFFFFF;
+    --text-primary: #1A1D23;
+    --text-secondary: #4B5563;
+    --text-muted: #6B7280;
+    --accent: #4F46E5;
+    --accent-hover: #4338CA;
+    --accent-light: #EEF2FF;
+    --accent-secondary: #7C3AED;
+    --border: #E5E7EB;
+    --border-radius: 12px;
+    --danger: #EF4444;
+    --success: #10B981;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-accent: 0 4px 14px rgba(79, 70, 229, 0.25);
+}
+
+/* ========================================
+BASE ELEMENTS
+======================================== */
+body {
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--bg-primary);
+    font-family: "Cairo", sans-serif;
+    font-size: 16px;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    line-height: 1.3;
+    text-align: center;
+    font-weight: 800;
+}
+
+h2 { font-size: 1.3rem; color: var(--text-primary); font-weight: 700; }
+h3 { font-size: 1.1rem; color: var(--text-primary); font-weight: 700; }
+p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* ========================================
+CLUB LOGO & HEADER
+======================================== */
+.club-logo {
+    width: 120px; height: 120px; margin: 0 auto 1.5em;
+    border-radius: 50%; overflow: hidden; box-shadow: var(--shadow-md); background: var(--bg-secondary);
+}
+.club-logo img { width: 100%; height: 100%; object-fit: cover; }
+.logo-fallback {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; color: var(--bg-primary);
+}
+
+header.formHeader {
+    width: 100%; display: flex; flex-direction: column; align-items: center;
+    gap: 0.8em; padding: 2.5em 2em 1.5em; background-color: var(--bg-primary);
+}
+header.formHeader h1 { margin-bottom: 0.3em; }
+header.formHeader p { max-width: 500px; text-align: center; }
+
+/* ========================================
+MAIN LAYOUT
+======================================== */
+main {
+    width: 100%; min-height: calc(100vh - 250px);
+    display: flex; flex-direction: column; align-items: center; padding: 2em 0;
+}
+
+/* ========================================
+SEARCH CONTAINER
+======================================== */
+.search-container { width: 100%; max-width: 550px; padding: 0 2em; }
+.search-box {
+    background: var(--bg-secondary); border: 2px solid var(--border);
+    border-radius: 16px; padding: 2em; box-shadow: var(--shadow-md);
+}
+
+.security-badge {
+    display: flex; align-items: center; justify-content: center; gap: 0.5em;
+    background: rgba(16, 185, 129, 0.1); color: #059669; padding: 0.8em;
+    border-radius: 8px; font-size: 0.9rem; font-weight: 700; margin-bottom: 1.5em;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.search-input-group { display: flex; flex-direction: column; gap: 1.2em; }
+.input-wrapper { display: flex; flex-direction: column; gap: 0.4em; }
+.input-wrapper label {
+    font-size: 0.9rem; font-weight: 700; color: var(--text-primary);
+    display: flex; align-items: center; gap: 0.4em;
+}
+.input-wrapper label i { color: var(--accent); }
+
+.input-wrapper input {
+    width: 100%; height: 3.2em; padding: 0 1rem;
+    border: 2px solid var(--border); border-radius: var(--border-radius);
+    font-family: "Cairo", sans-serif; font-size: 1rem; outline: none;
+    transition: all 0.2s ease; background: var(--bg-primary); color: var(--text-primary);
+}
+.input-wrapper input:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.search-btn {
+    height: 3.5em; padding: 0 1.5em;
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    color: var(--bg-primary); border: none; border-radius: var(--border-radius);
+    cursor: pointer; font-family: "Cairo", sans-serif; font-weight: 700; font-size: 1rem;
+    transition: all 0.2s ease; display: flex; align-items: center; justify-content: center;
+    gap: 0.5em; box-shadow: var(--shadow-accent);
+}
+.search-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35); }
+.search-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.search-hint {
+    display: flex; align-items: center; gap: 0.5em; padding: 0.8em 1em;
+    background: var(--accent-light); border-radius: 8px;
+    font-size: 0.85rem; color: var(--accent); margin-top: 1em;
+}
+.error-message {
+    display: flex; align-items: center; gap: 0.5em; padding: 0.8em 1em;
+    background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px;
+    font-size: 0.85rem; color: var(--danger); margin-top: 1em;
+}
+
+/* ========================================
+LOADING & PLAN CONTAINER
+======================================== */
+.loading-screen { text-align: center; padding: 3em; }
+.loading-screen i { font-size: 3rem; color: var(--accent); margin-bottom: 1em; }
+.loading-screen p { color: var(--text-muted); font-size: 1rem; }
+
+.plan-container { width: 100%; max-width: 700px; padding: 0 2em; }
+.back-btn {
+    display: inline-flex; align-items: center; gap: 0.5em; padding: 0.6em 1.2em;
+    background: var(--bg-secondary); border: 2px solid var(--border);
+    border-radius: var(--border-radius); cursor: pointer; font-family: "Cairo", sans-serif;
+    font-weight: 600; font-size: 0.9rem; color: var(--text-primary);
+    transition: all 0.2s ease; margin-bottom: 1.5em;
+}
+.back-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+.participant-info { display: flex; flex-direction: column; gap: 2em; }
+.info-header { text-align: center; }
+.info-header h2 { margin-bottom: 0.5em; }
+.info-subtitle { color: var(--text-muted); font-size: 0.95rem; }
+
+/* ========================================
+DIGITAL CARD
+======================================== */
+.digital-card {
+    background: var(--bg-secondary); border: 3px solid var(--accent);
+    border-radius: 16px; padding: 2em; box-shadow: var(--shadow-lg);
+}
+.card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1.5em; padding-bottom: 1em; border-bottom: 2px solid var(--border);
+}
+.card-header h3 { color: var(--accent); font-size: 1.5rem; font-weight: 800; }
+.card-header span {
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    color: var(--bg-primary); padding: 0.3em 1em; border-radius: 20px;
+    font-size: 0.85rem; font-weight: 700;
+}
+.card-body { display: flex; flex-direction: column; align-items: center; gap: 1em; }
+.card-body h4 { font-size: 1.4rem; color: var(--text-primary); font-weight: 700; }
+.card-id { font-size: 1.2rem; color: var(--accent); font-weight: 800; letter-spacing: 3px; }
+#qrcode { margin: 1em 0; padding: 1em; background: var(--bg-primary); border: 2px solid var(--border); border-radius: 12px; }
+#qrcode img { display: block; margin: 0 auto; }
+
+.card-meta { display: flex; flex-direction: column; gap: 0.5em; width: 100%; margin-top: 0.5em; }
+.meta-item {
+    display: flex; align-items: center; gap: 0.5em; padding: 0.6em 1em;
+    background: var(--bg-primary); border-radius: 8px; font-size: 0.9rem; color: var(--text-secondary);
+}
+.meta-item i { color: var(--accent); width: 20px; }
+
+/* ========================================
+SCHEDULE & EXPECTATIONS
+======================================== */
+.schedule-section, .expectations-section {
+    background: var(--bg-secondary); border: 2px solid var(--border);
+    border-radius: 16px; padding: 1.5em;
+}
+.schedule-title, .expectations-title {
+    display: flex; align-items: center; gap: 0.5em; margin-bottom: 1em; color: var(--text-primary);
+}
+.schedule-title i, .expectations-title i { color: var(--accent); }
+
+.schedule-days { display: flex; flex-direction: column; gap: 1em; }
+.day-block {
+    background: var(--bg-primary); border-radius: 12px; padding: 1em;
+    border-right: 4px solid var(--accent);
+}
+.day-block-header {
+    display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.8em;
+    font-weight: 700; color: var(--accent); font-size: 0.95rem;
+}
+.workshop-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.7em 0; border-bottom: 1px solid var(--border); font-size: 0.9rem;
+}
+.workshop-item:last-child { border-bottom: none; }
+.workshop-item-title { display: flex; align-items: center; gap: 0.5em; color: var(--text-primary); font-weight: 600; }
+.workshop-item-title i { color: var(--accent); font-size: 0.85rem; }
+.workshop-item-time { color: var(--text-muted); font-size: 0.85rem; display: flex; align-items: center; gap: 0.3em; }
+.workshop-item-type {
+    display: inline-block; padding: 0.2em 0.6em; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600; background: var(--accent-light); color: var(--accent); margin-right: 0.5em;
+}
+
+.expectations-box {
+    background: var(--bg-primary); border-radius: 12px; padding: 1.2em;
+    color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;
+    border-right: 3px solid var(--accent);
+}
+
+.screenshot-hint {
+    display: flex; align-items: center; justify-content: center; gap: 0.6em;
+    padding: 1em; background: var(--accent-light); border-radius: 12px;
+    color: var(--accent); font-weight: 600; font-size: 0.9rem;
+}
+
+/* ========================================
+FOOTER & RESPONSIVE
+======================================== */
+footer {
+    display: flex; align-items: center; justify-content: center;
+    padding: 2em; text-align: center; background-color: var(--bg-primary);
+}
+footer p { font-size: 0.85rem; color: var(--text-muted); }
+
+@media (max-width: 500px) {
+    header.formHeader { padding: 2em 1em 1em; }
+    header.formHeader h1 { font-size: 1.5rem; }
+    .club-logo { width: 60px; height: 60px; }
+    .club-logo img, .logo-fallback { font-size: 2rem; }
+    .search-container, .plan-container { padding: 0 1em; }
+    .search-box { padding: 1.5em; }
+    .digital-card { padding: 1.5em; }
+    .card-header { flex-direction: column; gap: 0.8em; text-align: center; }
+    .workshop-item { flex-direction: column; align-items: flex-start; gap: 0.3em; }
+}
